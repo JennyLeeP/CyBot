@@ -41,3 +41,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+bin/pircbot.jar
+lib/pircbot.jar
+oplist.txt
+.settings/org.eclipse.jdt.core.prefs
+bin/com/CyborgJenn/CyBot/CybIrcBot.class
+bin/com/CyborgJenn/CyBot/irc/IRCChannel.class
