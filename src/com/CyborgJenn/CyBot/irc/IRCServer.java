@@ -55,7 +55,7 @@ public class IRCServer {
 	 * @return IRCChannel object
 	 */
 	public IRCChannel getChannel(String channelName){
-		return channels.get(channelName);
+		return channels.get(channelName.toLowerCase());
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class IRCServer {
 	 * @return Old channel if one is already saved, null otherwise.
 	 */
 	public IRCChannel addChannel(IRCChannel newChannel){
-		return channels.put(newChannel.getName(), newChannel);
+		return channels.put(newChannel.getName().toLowerCase(), newChannel);
 	}
 
 	/**

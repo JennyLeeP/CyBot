@@ -47,3 +47,12 @@ oplist.txt
 .settings/org.eclipse.jdt.core.prefs
 bin/com/CyborgJenn/CyBot/CybIrcBot.class
 bin/com/CyborgJenn/CyBot/irc/IRCChannel.class
+bin/com/CyborgJenn/CyBot/CyBotOld.class
+bin/com/CyborgJenn/CyBot/irc/IRCServer.class
+bin/com/CyborgJenn/CyBot/Main.class
+bin/com/CyborgJenn/CyBot/Twitch/Twitch_Stream.class
+bin/com/CyborgJenn/CyBot/xml/SaveData.class
+bin/com/CyborgJenn/CyBot/Twitch/Twitch_API.class
+bin/com/CyborgJenn/CyBot/xml/XMLManager.class
+bin/com/CyborgJenn/CyBot/Twitch/API.class
+/bin/

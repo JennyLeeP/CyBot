@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FelisBotusConfig>
+  <BotList>
+    <Bot Name="CyBot" Owner="JennyLeeP" Login="somebot">
+      <Server Address="irc.esper.net">
+        <Channels>
+          <Channel Name="q3-dev">
+            <Ops>
+              <JennyLeeP />
+              <CyBot />
+              <Water_Cat1 />
+              <Soldjermon />
+              <FelisBotus />
+              <MasterChilly />
+            </Ops>
+          </Channel>
+        </Channels>
+      </Server>
+    </Bot>
+  </BotList>
+  <Commands />
+  <Streamers>
+    <Twitch />
+  </Streamers>
+</FelisBotusConfig>

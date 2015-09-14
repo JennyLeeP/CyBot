@@ -1,5 +1,6 @@
-package com.CyborgJenn.CyBot.Twitch;
+package com.CyborgJenn.CyBot.streamAPIs.Twitch;
 
+import com.CyborgJenn.CyBot.streamAPIs.JsonHelper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 /**
@@ -26,24 +27,16 @@ public class Twitch_API {
  */
 	public static Twitch_Stream getStream(String channelname){
 		try{
-			String lJson = API.readJsonFromUrl("https://api.twitch.tv/kraken/streams/"+channelname);
-			String cJson = API.readJsonFromUrl("https://api.twitch.tv/kraken/channels/"+channelname);
-
-			//Twitch_Stream live = new Twitch_Stream();
+			String lJson = JsonHelper.readJsonFromUrl("https://api.twitch.tv/kraken/streams/"+channelname);
+			String cJson = JsonHelper.readJsonFromUrl("https://api.twitch.tv/kraken/channels/"+channelname);
 			JsonObject lO = gson.fromJson(lJson, JsonObject.class);
 			Twitch_Stream stream = new Twitch_Stream();
 
 			if (lO.get("stream").isJsonNull()){
-				/* 
-				 * Stream = Offline
-				 */
 				stream.setOnline(false);
 				return stream;
 			}else
 			{
-				/*
-				 * Stream = Online
-				 */
 				JsonObject jb = gson.fromJson(cJson, JsonObject.class);
 				stream.setOnline(true);
 				stream.load(jb);

@@ -13,20 +13,28 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Set;
 
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 import org.jibble.pircbot.User;
 
-import com.CyborgJenn.CyBot.Twitch.Twitch_API;
-import com.CyborgJenn.CyBot.Twitch.Twitch_Stream;
 import com.CyborgJenn.CyBot.irc.IRCChannel;
 import com.CyborgJenn.CyBot.irc.IRCServer;
+import com.CyborgJenn.CyBot.streamAPIs.Beam.Beam_API;
+import com.CyborgJenn.CyBot.streamAPIs.Beam.Beam_Stream;
+import com.CyborgJenn.CyBot.streamAPIs.HitBox.HitBox_API;
+import com.CyborgJenn.CyBot.streamAPIs.HitBox.HitBox_Stream;
+import com.CyborgJenn.CyBot.streamAPIs.Twitch.Twitch_API;
+import com.CyborgJenn.CyBot.streamAPIs.Twitch.Twitch_Stream;
 
 public class CybIrcBot extends PircBot {	
 
 	private boolean voiceUsers = true;
+	//private String commands = "!borg, !commands";
+	//private String opCommands = "!botleave, !joinchannel #channel, !partchannel #channel";
+
 
 	private String owner;
 	private IRCServer server; // this thing will contain all info on the server,
@@ -391,17 +399,70 @@ public class CybIrcBot extends PircBot {
 			break;
 			case("twitch"):
 				splitMessage = message.split(" ");
+			if (splitMessage.length == 2){
 				String userName = splitMessage[1];
 				Twitch_Stream stream = Twitch_API.getStream(userName);
-				String status = userName.toUpperCase()+" Is live! \nGame = "+stream.getGame()+"\nTitle = "+stream.getStatus()+"\nURL = "+stream.getUrl();
+
+				String status = String.format(userName.toUpperCase()+" | Is live! Game = "+stream.getGame()+" | Title = "+stream.getStatus()+" | URL = "+stream.getUrl());
 				if (stream.isOnline()){
 					sendMessage(channel, status);
 				}else
 				{
 					sendMessage(channel,"Stream is Currently Offline");
 				}
+			}else
+			{
+				sendNotice(sender, "Syntax Error. Correct usage is: "+commandStart+"twitch <channel>");
+			}
+			break;
+			case("hitbox"):
+				splitMessage = message.split(" ");
+			if (splitMessage.length == 2){
+				String userName = splitMessage[1];
+				HitBox_Stream hStream = HitBox_API.getStream(userName);
+
+				String hStatus = String.format(hStream.getUser()+" is Live! | Title: "+hStream.getTitle()+" | Game: "+hStream.getGame()+" | Url: "+hStream.getUrl());
+				if (hStream.getIsOnline()){
+					sendMessage(channel, hStatus);
+				}else
+				{
+					sendMessage(channel,"Stream is Currently Offline");
+				}
+			}else
+			{
+				sendNotice(sender, "Syntax Error. Correct usage is: "+commandStart+"hitbox <channel>");
+			}
+			break;
+			case("beam"):
+				splitMessage = message.split(" ");
+			if (splitMessage.length == 2){
+				String userName = splitMessage[1];
+				Beam_Stream bStream = Beam_API.getStream(userName);
+
+				String bStatus = String.format(bStream.getUser()+" is Live! | Title: "+bStream.getTitle()+" | Game: "+bStream.getGame()+" | Url: "+bStream.getUrl());
+				if (bStream.getIsOnline()){
+					sendMessage(channel, bStatus);
+				}else
+				{
+					sendMessage(channel,"Stream is Currently Offline");
+				}
+			}else
+			{
+				sendNotice(sender, "Syntax Error. Correct usage is: "+commandStart+"beam <channel>");
+			}
+			break;
+			case("commands"):
+				//TODO parse command
 
 			break;
+
+			case("roll"):
+				Random rand = new Random();
+			int dice1 = rand.nextInt(6);
+			int dice2 = rand.nextInt(6);
+			sendMessage(channel, sender+" Rolls a "+dice1+"+"+dice2+"="+(dice1+dice2));
+			break;
+
 			default:
 				String response = Main.getResponse(lowercaseCommand.substring(commandStart.length()));
 				if (response != null){

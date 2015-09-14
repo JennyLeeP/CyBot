@@ -1,4 +1,4 @@
-package com.CyborgJenn.CyBot.Twitch;
+package com.CyborgJenn.CyBot.streamAPIs;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,7 +8,7 @@ import java.net.URL;
  * @author JennyLeeP
  *
  */
-public class API {
+public class JsonHelper {
 	/**
 	 * Opens a buffered reader, reads the URL and closes the buffered reader.
 	 * @param urlString

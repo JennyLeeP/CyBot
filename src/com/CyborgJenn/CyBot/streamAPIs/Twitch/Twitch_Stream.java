@@ -1,4 +1,4 @@
-package com.CyborgJenn.CyBot.Twitch;
+package com.CyborgJenn.CyBot.streamAPIs.Twitch;
 
 import com.google.gson.JsonObject;
 /**
@@ -42,4 +42,5 @@ public class Twitch_Stream {
 	public String getUrl() {
 		return this.url; }
 	public void setUrl(String url) { this.url = url; }
+	
 }

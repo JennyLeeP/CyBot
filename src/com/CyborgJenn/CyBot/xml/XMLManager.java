@@ -30,8 +30,6 @@ import com.CyborgJenn.CyBot.irc.IRCServer;
  */
 public class XMLManager {
 
-	
-	
 	/**
 	 * compiles an XML file based on the supplied list of bots and map of commands
 	 * @param bots List of bots to save
@@ -42,56 +40,62 @@ public class XMLManager {
 	public static boolean compileConfigFile(List<CybIrcBot> bots, Map<String, String> commands, List<String> streamersTwitch) throws IOException {
 		Document doc = new Document();
 		//root setup
-		Element elemRoot = new Element("CyBotConfig");//<FelisBotusConfig>
+		Element elemRoot = new Element("FelisBotusConfig");//<FelisBotusConfig>
 		Element elemBotList = new Element("BotList");//<BotList>
-		for (CybIrcBot currBot:bots){
-			//save bot name
-			Element elemCurrBot = new Element("Bot");//<Bot Name="" Owner="" Login="" [LoginPass=""]>
-			elemCurrBot.setAttribute("Name", currBot.getName());
-			elemCurrBot.setAttribute("Owner", currBot.getOwner());
-			elemCurrBot.setAttribute("Login", currBot.getLogin());
-			String loginPass = currBot.getLoginPass();
-			if (loginPass != null){
-				elemCurrBot.setAttribute("LoginPass", loginPass);
-			}
-			//save single server associated with this bot
-			IRCServer currServer = currBot.getIRCServer(); 
-			Element elemCurrServer = new Element("Server");//<Server Address="">
-			elemCurrServer.setAttribute("Address", currServer.getServerAddress());
-			//add support here for servers with passwords if I need it
-			//add channels associated with this server
-			Element currServerChannels = new Element("Channels");//<Channels>
-			for (IRCChannel currChannel:currServer.getChannels()){
-				Element elemCurrChannel = new Element("Channel");
-				elemCurrChannel.setAttribute("Name",currChannel.getName().substring(1)); //<Channel> //Do channels have certain things like passwords?
-				//save ops for this channel
-				Element elemCurrChannelOps = new Element("Ops");//<Ops>
-				for (String currOp:currChannel.getOpList()){
-					elemCurrChannelOps.addContent(new Element(currOp));//<opName/>
+		if (bots != null){
+			for (CybIrcBot currBot:bots){
+				//save bot name
+				Element elemCurrBot = new Element("Bot");//<Bot Name="" Owner="" Login="" [LoginPass=""]>
+				elemCurrBot.setAttribute("Name", currBot.getName());
+				elemCurrBot.setAttribute("Owner", currBot.getOwner());
+				elemCurrBot.setAttribute("Login", currBot.getLogin());
+				String loginPass = currBot.getLoginPass();
+				if (loginPass != null){
+					elemCurrBot.setAttribute("LoginPass", loginPass);
 				}
-				elemCurrChannel.addContent(elemCurrChannelOps);// </Ops>
-				currServerChannels.addContent(elemCurrChannel); //</Channel>
-			}
-			elemCurrServer.addContent(currServerChannels);//</Channels>
-			elemCurrBot.addContent(elemCurrServer);//</Server>
-			elemBotList.addContent(elemCurrBot);//</Bot>
+				//save single server associated with this bot
+				IRCServer currServer = currBot.getIRCServer(); 
+				Element elemCurrServer = new Element("Server");//<Server Address="">
+				elemCurrServer.setAttribute("Address", currServer.getServerAddress());
+				//add support here for servers with passwords if I need it
+				//add channels associated with this server
+				Element currServerChannels = new Element("Channels");//<Channels>
+				for (IRCChannel currChannel:currServer.getChannels()){
+					Element elemCurrChannel = new Element("Channel");
+					elemCurrChannel.setAttribute("Name",currChannel.getName().substring(1)); //<Channel> //Do channels have certain things like passwords?
+					//save ops for this channel
+					Element elemCurrChannelOps = new Element("Ops");//<Ops>
+					for (String currOp:currChannel.getOpList()){
+						elemCurrChannelOps.addContent(new Element(currOp));//<opName/>
+					}
+					elemCurrChannel.addContent(elemCurrChannelOps);// </Ops>
+					currServerChannels.addContent(elemCurrChannel); //</Channel>
+				}
+				elemCurrServer.addContent(currServerChannels);//</Channels>
+				elemCurrBot.addContent(elemCurrServer);//</Server>
+				elemBotList.addContent(elemCurrBot);//</Bot>
 
+			}
 		}
 		elemRoot.addContent(elemBotList);//</BotList>
 		Element elemCommands = new Element("Commands");//<Commands>
-		for (String key:commands.keySet()){
-			Element elemCurrCommand = new Element("Command");//<Command Command="" Response=""/>
-			elemCurrCommand.setAttribute("Command", key);
-			elemCurrCommand.setAttribute("Response", commands.get(key));
-			elemCommands.addContent(elemCurrCommand);
+		if (commands != null){
+			for (String key:commands.keySet()){
+				Element elemCurrCommand = new Element("Command");//<Command Command="" Response=""/>
+				elemCurrCommand.setAttribute("Command", key);
+				elemCurrCommand.setAttribute("Response", commands.get(key));
+				elemCommands.addContent(elemCurrCommand);
+			}
 		}
 		elemRoot.addContent(elemCommands);//</Commands>
 		Element elemStreamerList = new Element("Streamers");//<Streamers>
 		Element elemStreamersTwitch = new Element("Twitch");//<Twitch>
-		for (String currStreamer:streamersTwitch){
-			Element elemCurrStreamer = new Element("Streamer");//<Streamer Name="" />
-			elemCurrStreamer.setAttribute("Name", currStreamer);
-			elemStreamersTwitch.addContent(elemCurrStreamer);
+		if (streamersTwitch != null){
+			for (String currStreamer:streamersTwitch){
+				Element elemCurrStreamer = new Element("Streamer");//<Streamer Name="" />
+				elemCurrStreamer.setAttribute("Name", currStreamer);
+				elemStreamersTwitch.addContent(elemCurrStreamer);
+			}
 		}
 		elemStreamerList.addContent(elemStreamersTwitch);//</Twitch>
 		elemRoot.addContent(elemStreamerList);//</Streamers>
